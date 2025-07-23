@@ -1,0 +1,111 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h1 a {
+    text-decoration: none;
+    color: #333;
+    font-size: 28px;
+    background: linear-gradient(45deg, #9cdef8, #a2e9fc);
+    padding: 5px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#input-section {
+    margin: 20px 0;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+label {
+    display: inline-block;
+    margin: 10px 5px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+#load-message {
+    margin: 20px 0;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a90e2;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-block;
+    margin-right: 10px; 
+}
+
+button:hover {
+    background-color: #357ab7;
+}
+
+#memorization-section {
+    background-color: #e9f7fe;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#repetition-counter {
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+#attribution {
+    margin-top: 50px;
+    text-align: center;
+}
+
+#attribution p {
+    color: #777;
+}
+
+#attribution a {
+    color: #4a90e2;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#attribution a:hover {
+    color: #357ab7;
+}
+
+#target-text {
+    white-space: pre-wrap;
+    text-align: left;
+    padding-bottom: 10px;
+    /* font-family: 'Courier New', Courier, monospace; */
+    font-size: large;
+}
+
+#button-container {
+    display: flex;
+    justify-content: start; /* aligns the items to the start of the container */
+}

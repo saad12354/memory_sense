@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1><a href="index.html">Memorizer</a></h1>
+        
+        <div id="input-section">
+            <textarea placeholder="Enter lines to memorize"></textarea>
+            <label><input type="radio" name="mode" value="single" checked> Single Line Mode</label>
+            <label><input type="radio" name="mode" value="multi"> Multi-Line Mode</label>
+            <p id="load-message">Or load a text file from your computer <input type="file" id="fileInput" accept=".txt"></p>
+            <button id="start">Start Memorizer</button>
+        </div>
+
+        <div id="memorization-section" hidden>
+            <div id="target-text"></div>
+            <textarea id="user-input" placeholder="Start typing here ..."></textarea>
+            <!-- Depending on your styling, you might want to style this textarea to look like a single input line when in single-line mode. -->
+            <div id="repetition-counter">1/10</div>
+            <div id="button-container">
+                <button id="prev">Previous Line</button>
+                <button id="next">Next Line</button>
+            </div>
+        </div>
+    </div>
+    <div id="attribution">
+        <p>&copy; 2023 <a href="https://linkedin.com/in/kashfifahim" target="_blank">Kashfi Fahim</a>.  All Rights Reserved.</p>
+</div>
+    <script src="app.js"></script>
+</body>
+</html>
