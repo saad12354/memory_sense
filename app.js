@@ -1,130 +1,68 @@
-document.getElementById('fileInput').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(fileEvent) {
-            const contents = fileEvent.target.result;
-            document.querySelector('textarea').value = contents;
-        };
-        reader.readAsText(file);
+const movies = [
+    { title: "Inception", genre: "Sci-Fi" },
+    { title: "Interstellar", genre: "Sci-Fi" },
+    { title: "The Notebook", genre: "Romance" },
+    { title: "John Wick", genre: "Action" },
+    { title: "The Matrix", genre: "Sci-Fi" },
+    { title: "Titanic", genre: "Romance" },
+    { title: "Avengers", genre: "Action" },
+    { title: "Coco", genre: "Animation" },
+    { title: "The Conjuring", genre: "Horror" },
+    { title: "Joker", genre: "Drama" }
+];
+
+let watched = [];
+let genreScore = {};
+
+document.getElementById("watchMovie").addEventListener("click", () => {
+    const input = document.getElementById("movieInput").value.trim();
+    const movie = movies.find(m => m.title.toLowerCase() === input.toLowerCase());
+
+    if (movie) {
+        if (watched.some(w => w.title.toLowerCase() === movie.title.toLowerCase())) {
+            alert("You've already watched this movie!");
+            return;
+        }
+        watched.push(movie);
+        genreScore[movie.genre] = (genreScore[movie.genre] || 0) + 1;
+        updateWatchedList();
+        document.getElementById("movieInput").value = "";
+    } else {
+        alert("Movie not found in database.");
     }
 });
 
-document.getElementById('start').addEventListener('click', function() {
-    const modeElements = document.getElementsByName('mode');
-    let mode;
-    modeElements.forEach(element => {
-        if (element.checked) {
-            mode = element.value;
-        }
-    });
+function updateWatchedList() {
+    const container = document.getElementById("watched-list");
+    container.innerHTML = "<h3>Watched Movies:</h3><ul>" +
+        watched.map(m => `<li>${m.title} (${m.genre})</li>`).join("") +
+        "</ul>";
+}
 
-    const inputSection = document.getElementById('input-section');
-    const memorizationSection = document.getElementById('memorization-section');
-    const userInput = document.getElementById('user-input');
-    const targetTextElement = document.getElementById('target-text');
-    const repetitionCounter = document.getElementById('repetition-counter');
-    const nextButton = document.getElementById('next');
-    const prevButton = document.getElementById('prev');
-
-    let lines = document.querySelector('textarea').value.split('\n');
-    lines = lines.filter(line => line.trim() !== '');
-
-    if (lines.length === 0) {
-        alert('Please enter text to memorize.');
-        return;
-    }
-
-    let currentLineIndex = 0;
-    let repetitions = 0;
-
-    function setTargetText() {
-        if (mode === 'multi') {
-            // Find the next blank line or end of the text.
-            let endIndex = lines.slice(currentLineIndex + 1).findIndex(line => line.trim() === '');
-            endIndex = (endIndex !== -1) ? currentLineIndex + endIndex + 1 : lines.length;
-            targetTextElement.textContent = lines.slice(currentLineIndex, endIndex).join('\n');
-            // Hide the Next and Previous buttons
-            prevButton.style.display = 'none';
-            nextButton.style.display = 'none';
-        } else {
-            targetTextElement.textContent = lines[currentLineIndex];
-            // Show the Next and Previous buttons
-            prevButton.style.display = 'block';
-            nextButton.style.display = 'block';
-            prevButton.style.visibility = (currentLineIndex === 0) ? 'hidden' : 'visible';
-            nextButton.style.visibility = (currentLineIndex === lines.length - 1) ? 'hidden' : 'visible';
-        }
-        repetitionCounter.textContent = `${repetitions+1}/10`;
-        userInput.value = '';
-        userInput.style.color = 'black';
-    
-        prevButton.style.visibility = (currentLineIndex === 0) ? 'hidden' : 'visible';
-        nextButton.style.visibility = (currentLineIndex === lines.length - 1) ? 'hidden' : 'visible';
-    }
-
-    function checkInput() {
-        const userInputText = userInput.value;
-        let targetText;
-    
-        if (mode === 'multi') {
-            // Find the next blank line or end of the text.
-            let endIndex = lines.slice(currentLineIndex + 1).findIndex(line => line.trim() === '') + 1;
-            endIndex = (endIndex > 0) ? currentLineIndex + endIndex : lines.length;
-            targetText = lines.slice(currentLineIndex, endIndex).join('\n');
-        } else {
-            targetText = lines[currentLineIndex];
-        }
-    
-        if (userInputText === targetText) {
-            userInput.style.color = 'green';
-            repetitions++;
-    
-            if (repetitions >= 10) {   // Ensure you're comparing against the number 10, not repetitionCounter element
-                alert('You have practiced this line/section 10 times! Well done.');
-                repetitions = 0;
-                if (mode === 'multi') {
-                    // Move to the next chunk after the blank line.
-                    let endIndex = lines.slice(currentLineIndex + 1).findIndex(line => line.trim() === '') + 1;
-                    currentLineIndex = (endIndex > 0) ? currentLineIndex + endIndex : lines.length;
-                } else {
-                    currentLineIndex++;
-                }
-            }
-    
-            if (currentLineIndex >= lines.length) {
-                alert('Congratulations! You have completed all lines.');
-                location.reload();
-                return;
-            }
-    
-            setTimeout(setTargetText, 500);
-        } else {
-            const isCorrectSoFar = targetText.startsWith(userInputText);
-            userInput.style.color = isCorrectSoFar ? 'black' : 'red';
-        }
-    }
-
-    userInput.addEventListener('input', checkInput);
-
-    prevButton.addEventListener('click', function() {
-        if (currentLineIndex > 0) {
-            repetitions = 0;
-            currentLineIndex--;
-            setTargetText();
-        }
-    });
-
-    nextButton.addEventListener('click', function() {
-        if (currentLineIndex < lines.length - 1) {
-            repetitions = 0;
-            currentLineIndex++;
-            setTargetText();
-        }
-    });
-
-    setTargetText();
-    inputSection.hidden = true;
-    memorizationSection.hidden = false;
-    userInput.focus();
+document.getElementById("recommendBest").addEventListener("click", () => {
+    if (!watched.length) return alert("Watch some movies first!");
+    const favGenre = Object.keys(genreScore).reduce((a, b) => genreScore[a] > genreScore[b] ? a : b);
+    const recs = movies.filter(m => m.genre === favGenre && !watched.some(w => w.title === m.title));
+    displayRecommendations("Best Fit", favGenre, recs);
 });
+
+document.getElementById("recommendWorst").addEventListener("click", () => {
+    if (!watched.length) return alert("Watch some movies first!");
+    const allGenres = new Set(movies.map(m => m.genre));
+    const unseen = [...allGenres].filter(g => !(g in genreScore));
+    const targetGenre = unseen.length
+        ? unseen[Math.floor(Math.random() * unseen.length)]
+        : Object.keys(genreScore).reduce((a, b) => genreScore[a] < genreScore[b] ? a : b);
+    const recs = movies.filter(m => m.genre === targetGenre && !watched.some(w => w.title === m.title));
+    displayRecommendations("Worst Fit", targetGenre, recs);
+});
+
+function displayRecommendations(type, genre, recs) {
+    const container = document.getElementById("recommendation");
+    if (recs.length) {
+        container.innerHTML = `<h3>${type} Recommendations (Genre: ${genre}):</h3><ul>` +
+            recs.map(m => `<li>${m.title}</li>`).join("") + "</ul>";
+    } else {
+        container.innerHTML = `<h3>No ${type.toLowerCase()} recommendations available for genre: ${genre}</h3>`;
+    }
+}
