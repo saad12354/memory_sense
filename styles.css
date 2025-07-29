@@ -28,28 +28,6 @@ h1 a {
     margin: 20px 0;
 }
 
-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    resize: vertical;
-}
-
-label {
-    display: inline-block;
-    margin: 10px 5px;
-}
-
-input[type="radio"] {
-    margin-right: 5px;
-}
-
-#load-message {
-    margin: 20px 0;
-}
-
 button {
     padding: 10px 15px;
     border: none;
@@ -59,7 +37,7 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
     display: inline-block;
-    margin-right: 10px; 
+    margin-right: 10px;
 }
 
 button:hover {
@@ -73,9 +51,13 @@ button:hover {
     margin-top: 20px;
 }
 
-#repetition-counter {
-    font-weight: bold;
-    margin: 20px 0;
+#watched-list ul li,
+#recommendation ul li {
+    padding: 6px;
+    border-left: 4px solid #4a90e2;
+    margin-bottom: 6px;
+    background: #f0faff;
+    border-radius: 4px;
 }
 
 #attribution {
@@ -95,17 +77,4 @@ button:hover {
 
 #attribution a:hover {
     color: #357ab7;
-}
-
-#target-text {
-    white-space: pre-wrap;
-    text-align: left;
-    padding-bottom: 10px;
-    /* font-family: 'Courier New', Courier, monospace; */
-    font-size: large;
-}
-
-#button-container {
-    display: flex;
-    justify-content: start; /* aligns the items to the start of the container */
 }
