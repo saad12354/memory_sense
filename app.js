@@ -66,3 +66,7 @@ function displayRecommendations(type, genre, recs) {
         container.innerHTML = `<h3>No ${type.toLowerCase()} recommendations available for genre: ${genre}</h3>`;
     }
 }
+<link rel="stylesheet"
+href="css/style.css"
+<script src"js/script.js">
+    </script>
